@@ -1,9 +1,11 @@
-##Goal of the App
+Goal of the App
+---------------
 
 To allow the user to generate life expectancy at birth figures and plots, given her/his criteria of choice.
 
 
-#Capabilities:  What can be done with the App
+Capabilities:  What can be done with the App
+---------------------------------------------
 
 The App allows the user to:
 
@@ -14,7 +16,7 @@ The App allows the user to:
 3) Plot a boxplot that allows to compare the World figures against the life expectancy at birth for the chosen year of birth, sex and country.
    
 
-#App Structure and Elements
+App Structure and Elements
 
 The app is structured in three parts with it's constituting elements:
 
