@@ -1,4 +1,4 @@
-#Goal of the App
+##Goal of the App
 
 To allow the user to generate life expectancy at birth figures and plots, given her/his criteria of choice.
 
