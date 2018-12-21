@@ -17,6 +17,7 @@ The App allows the user to:
    
 
 App Structure and Elements
+--------------------------
 
 The app is structured in three parts with it's constituting elements:
 
@@ -49,7 +50,8 @@ The app is structured in three parts with it's constituting elements:
 5) 'Intersting Sites About Life Expectancies' Tab, where hiperlinks to sites related life expectancy at birth are provided.
 
 
-#Operation:  How to use the App
+Operation:  How to use the App
+------------------------------
 
 1) In the input panel, select your criteria for the analysis with the following controls:
 	
@@ -65,7 +67,8 @@ The app is structured in three parts with it's constituting elements:
 
 
 
-#Appendix:  Interesting Sites related to Life Expectancy at Birth
+Appendix:  Interesting Sites related to Life Expectancy at Birth
+----------------------------------------------------------------
 
 https://www.gapminder.org/
 https://en.wikipedia.org/wiki/Life_expectancy
