@@ -1,0 +1,114 @@
+---
+title: "Life Expectancy at Birth App"
+author: "Pablo Rosales"
+date: "12/20/2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Life Expectancy at Birth
+
+- Life expectancy at birth is defined as "... a statistical measure of the average time an organism is expected to live, based on the year of its birth, its current age and other demographic factors including gender."  (Source:  Wikipedia)
+
+- Worldwide, life expectancy at birth shows an incremental trend for most countries.
+
+- The trends vary by country and by sex.
+
+## The App
+
+- The "Life Expectancy at Birth App" allows the user to explore this variable interactively.
+
+- Posible analyses include: 
+  - Life expectancy at birth for a given country, sex and year of birth.
+  - Life expectancy trend in a given country.
+  - Life expectancy in a given country compared to World statistics. 
+
+- It is powered by data provided by the Institute for Health Metrics and Evaluation, University of Washington (https://www.gapminder.org/data/documentation/gd004/)
+
+## Demo:  Life expectancy at birth in Guatemala for a person born in 1978
+
+```{r echo = FALSE, include = FALSE}
+  # ----------------------------------- Load Libraries ----------------------------------- #
+    library(sqldf)
+    library(dplyr)
+    library(reshape2)
+    library(ggplot2)
+    
+   # ----------------------------------- Load Data Sets ----------------------------------- #
+  raw_life_expectancy_at_birth_male_df <- read.csv("/Users/prosales/Documents/Personales/09 - Developing Data Products/final_project/data/Life_expectancy_at_birth_MALE.csv")
+  
+  # ----------------------------------- Males Set Preparation ----------------------------------- #
+  # rename colums
+  raw_life_expectancy_at_birth_male_col_names <- colnames(raw_life_expectancy_at_birth_male_df) 
+  std_life_expectancy_at_birth_male_col_names <- gsub("X", "", raw_life_expectancy_at_birth_male_col_names)
+  colnames(raw_life_expectancy_at_birth_male_df) <- std_life_expectancy_at_birth_male_col_names
+  
+  # standardise countries names
+  std_life_expectancy_at_birth_male_df <- raw_life_expectancy_at_birth_male_df %>% mutate (country = toupper(country))
+  
+  # convert column year to row
+  std_2_life_expectancy_at_birth_male_df <- melt(std_life_expectancy_at_birth_male_df, id = (c(("country"))) )
+  colnames(std_2_life_expectancy_at_birth_male_df) <- c("country", "year", "life_expectancy_at_birth")
+  
+  std_2_life_expectancy_at_birth_male_df$year <- as.integer(as.character(std_2_life_expectancy_at_birth_male_df$year))
+  
+  std_2_life_expectancy_at_birth_male_df$sex = "MALE"
+
+  # ----------------------------------- All  Set Preparation ----------------------------------- #
+  all_life_expectancy_at_birth_df <- std_2_life_expectancy_at_birth_male_df
+  
+  # ----------------------------------- Getting User's Choices ----------------------------------- #
+  sex_choice <- "MALE"
+  country_choice <- "GUATEMALA"
+  year_of_birth_choice <- 1978
+  
+  # ----------------------------------- Filtering  User's Choice ----------------------------------- #f
+  resulting_row_by_choice <- all_life_expectancy_at_birth_df[
+  (
+    (all_life_expectancy_at_birth_df$country == country_choice) &
+    (all_life_expectancy_at_birth_df$year    == year_of_birth_choice) & 
+    (all_life_expectancy_at_birth_df$sex     == sex_choice)
+  ), 
+  ]
+  
+  life_expectancies_by_country_df <- all_life_expectancy_at_birth_df [
+    (
+      (all_life_expectancy_at_birth_df$country == country_choice) &
+        (all_life_expectancy_at_birth_df$sex   == sex_choice)
+    ), 
+  ]
+  
+  
+  
+  
+  # ----------------------------------- Life Expectancy at Birth in Years for Country ----------------------------------- #
+  life_expectancies_by_country_qplot <- qplot(
+    x = year, 
+    y = life_expectancy_at_birth,
+    data = life_expectancies_by_country_df,
+    main = paste("Period Life Expectancy at Birth by Year in ", country_choice),
+    xlab = "Year",
+    ylab = "Life Expectancy at Birth in Years"
+  )
+  
+  life_expectancies_by_country_qplot <- life_expectancies_by_country_qplot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  
+  life_expectancies_by_country_qplot <- life_expectancies_by_country_qplot + geom_vline(xintercept = 1978, linetype="dashed", color = "red")
+  
+  
+```
+
+``` {r echo = TRUE}
+life_expectancies_by_country_qplot
+```
+
+## Conclusion and Invitation
+
+- Understanding World through data can be an enlightening endeavour. 
+
+- This app represents a tool to understand a fundamental variable to understand human progress, you are invited to use it !
+
+
